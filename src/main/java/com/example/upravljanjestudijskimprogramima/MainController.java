@@ -4,10 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -17,8 +14,45 @@ import javafx.scene.Parent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainController {
+
+    @FXML
+    private Button btnDodajKolegij;
+
+    @FXML
+    private Button btnDodajProfesori;
+
+    @FXML
+    private Button btnDodajStudenti;
+
+    @FXML
+    private Button btnLogout;
+
+    @FXML
+    private Button btnLogout1;
+
+    @FXML
+    private Button btnLogout2;
+
+    @FXML
+    private Button btnObrisiKolegij;
+
+    @FXML
+    private Button btnObrisiProfesora;
+
+    @FXML
+    private Button btnObrisiStudenta;
+
+    @FXML
+    private Button btnPromijeniKolegij;
+
+    @FXML
+    private Button btnPromijeniProfesora;
+
+    @FXML
+    private Button btnPromijeniStudenta;
 
     @FXML
     private TextField studentNameField;
@@ -47,6 +81,8 @@ public class MainController {
     @FXML
     private TextField courseIdField;
     @FXML
+    public TextField courseProfessorField;
+    @FXML
     private TableView<Course> tvCourse;
     @FXML
     private TableColumn<Course, String> idKolegijaColumn;
@@ -54,7 +90,6 @@ public class MainController {
     private TableColumn<Course, String> imeKolegijaColumn;
     @FXML
     private TableColumn<Course, String> imeProfesoraColumn;
-
     private ObservableList<Student> studentData = FXCollections.observableArrayList();
     private ObservableList<Professor> professorData = FXCollections.observableArrayList();
     private ObservableList<Course> courseData = FXCollections.observableArrayList();
@@ -95,6 +130,27 @@ public class MainController {
             saveData();
         }
     }
+    @FXML
+    private void updateStudent(ActionEvent event) {
+        Student student = tvStudent.getSelectionModel().getSelectedItem();
+        if (student != null) {
+            student.setName(studentNameField.getText());
+            student.setStudentId(studentIdField.getText());
+            studentRepository.update(student);
+            tvStudent.refresh();
+            saveData();
+        }
+    }
+
+    @FXML
+    private void deleteStudent(ActionEvent event) {
+        Student student = tvStudent.getSelectionModel().getSelectedItem();
+        if (student != null) {
+            studentRepository.delete(student.getStudentId());
+            studentData.remove(student);
+            saveData();
+        }
+    }
 
     @FXML
     private void addProfessor(ActionEvent event) {
@@ -111,17 +167,74 @@ public class MainController {
     }
 
     @FXML
+    private void updateProfessor(ActionEvent event) {
+        Professor professor = tvProfessor.getSelectionModel().getSelectedItem();
+        if (professor != null) {
+            professor.setName(professorNameField.getText());
+            professor.setProfessorId(professorIdField.getText());
+            professorRepository.update(professor);
+            tvProfessor.refresh();
+            saveData();
+        }
+    }
+
+    @FXML
+    private void deleteProfessor(ActionEvent event) {
+        Professor professor = tvProfessor.getSelectionModel().getSelectedItem();
+        if (professor != null) {
+            professorRepository.delete(professor.getProfessorId());
+            professorData.remove(professor);
+            saveData();
+        }
+    }
+
+    @FXML
     private void addCourse(ActionEvent event) {
-        String courseName = courseNameField.getText();
-        String courseId = courseIdField.getText();
-        if (!courseName.isEmpty() && !courseId.isEmpty()) {
-            Professor professor = professorData.isEmpty() ? null : professorData.get(0);
-            String professorName = professor != null ? professor.getName() : "N/A";
+        try {
+            String courseName = courseNameField.getText();
+            String courseId = courseIdField.getText();
+            String professorName = courseProfessorField.getText();
+
+            if (courseName == null || courseName.isEmpty() ||
+                    courseId == null || courseId.isEmpty() ||
+                    professorName == null || professorName.isEmpty()) {
+                System.out.println("Sva polja moraju biti popunjena!");
+                return;
+            }
+
             Course course = new Course(courseId, courseName, professorName);
+
             courseRepository.add(course);
             courseData.add(course);
             courseNameField.clear();
             courseIdField.clear();
+            courseProfessorField.clear();
+            saveData();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Došlo je do greške prilikom dodavanja kolegija.");
+        }
+    }
+
+
+    @FXML
+    private void updateCourse(ActionEvent event) {
+        Course course = tvCourse.getSelectionModel().getSelectedItem();
+        if (course != null) {
+            course.setCourseName(courseNameField.getText());
+            course.setCourseId(courseIdField.getText());
+            courseRepository.update(course);
+            tvCourse.refresh();
+            saveData();
+        }
+    }
+
+    @FXML
+    private void deleteCourse(ActionEvent event) {
+        Course course = tvCourse.getSelectionModel().getSelectedItem();
+        if (course != null) {
+            courseRepository.delete(course.getCourseId());
+            courseData.remove(course);
             saveData();
         }
     }

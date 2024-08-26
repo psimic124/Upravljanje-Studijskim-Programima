@@ -56,12 +56,22 @@
                         </Label>
                         <TextField fx:id="studentNameField" layoutX="143.0" layoutY="28.0" prefHeight="25.0" prefWidth="185.0" promptText="unesite ime" />
                         <TextField fx:id="studentIdField" layoutX="143.0" layoutY="72.0" prefHeight="25.0" prefWidth="185.0" promptText="unesite id studenta" />
-                        <Button fx:id="btwDodajStudenti" layoutX="311.0" layoutY="120.0" mnemonicParsing="false" onAction="#addStudent" text="Dodaj">
+                        <Button fx:id="btnDodajStudenti" layoutX="311.0" layoutY="120.0" mnemonicParsing="false" onAction="#addStudent" text="Dodaj">
                            <font>
                               <Font name="System Italic" size="15.0" />
                            </font>
                         </Button>
                         <Button fx:id="btnLogout" layoutX="511.0" layoutY="214.0" mnemonicParsing="false" onAction="#logout" text="Logout">
+                           <font>
+                              <Font name="System Italic" size="15.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btnPromijeniStudenta" layoutX="311.0" layoutY="172.0" mnemonicParsing="false" onAction="#updateStudent" text="Promijeni">
+                           <font>
+                              <Font name="System Italic" size="15.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btnObrisiStudenta" layoutX="311.0" layoutY="220.0" mnemonicParsing="false" onAction="#deleteStudent" text="Obrisi">
                            <font>
                               <Font name="System Italic" size="15.0" />
                            </font>
@@ -95,9 +105,19 @@
                             <TableColumn fx:id="profesorIDColumn" prefWidth="94.0" text="ProfesorID" />
                           </columns>
                         </TableView>
-                        <TextField fx:id="professorNameField" layoutX="151.0" layoutY="39.0" prefHeight="25.0" prefWidth="189.0" promptText="unesite ime profesora" />
-                        <TextField fx:id="professorIdField" layoutX="151.0" layoutY="86.0" prefHeight="25.0" prefWidth="189.0" promptText="unesite ID profesora" />
+                        <TextField fx:id="professorNameField" layoutX="125.0" layoutY="39.0" prefHeight="25.0" prefWidth="189.0" promptText="unesite ime profesora" />
+                        <TextField fx:id="professorIdField" layoutX="125.0" layoutY="86.0" prefHeight="25.0" prefWidth="189.0" promptText="unesite ID profesora" />
                         <Button fx:id="btnLogout1" layoutX="508.0" layoutY="217.0" mnemonicParsing="false" onAction="#logout" text="Logout">
+                           <font>
+                              <Font name="System Italic" size="15.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btnPromijeniProfesora" layoutX="328.0" layoutY="179.0" mnemonicParsing="false" onAction="#updateProfessor" text="Promijeni">
+                           <font>
+                              <Font name="System Italic" size="15.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btnObrisiProfesora" layoutX="328.0" layoutY="226.0" mnemonicParsing="false" onAction="#deleteProfessor" text="Obrisi">
                            <font>
                               <Font name="System Italic" size="15.0" />
                            </font>
@@ -115,14 +135,14 @@
                               <Font size="17.0" />
                            </font>
                         </Label>
-                        <Label layoutX="40.0" layoutY="80.0" text="ID:">
+                        <Label layoutX="41.0" layoutY="79.0" text="ID:">
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="courseNameField" layoutX="172.0" layoutY="32.0" prefHeight="25.0" prefWidth="186.0" promptText="unesite ime kolegija" />
-                        <TextField fx:id="courseIdField" layoutX="172.0" layoutY="80.0" prefHeight="25.0" prefWidth="185.0" promptText="unesite id kolegija" />
-                        <Button fx:id="btnDodajKolegij" layoutX="376.0" layoutY="120.0" mnemonicParsing="false" onAction="#addCourse" text="Dodaj">
+                        <TextField fx:id="courseNameField" layoutX="152.0" layoutY="33.0" prefHeight="25.0" prefWidth="186.0" promptText="unesite ime kolegija" />
+                        <TextField fx:id="courseIdField" layoutX="102.0" layoutY="80.0" prefHeight="25.0" prefWidth="185.0" promptText="unesite id kolegija" />
+                        <Button fx:id="btnDodajKolegij" layoutX="349.0" layoutY="120.0" mnemonicParsing="false" onAction="#addCourse" text="Dodaj">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -139,6 +159,22 @@
                               <Font name="System Italic" size="15.0" />
                            </font>
                         </Button>
+                        <Button fx:id="btnPromijeniKolegij" layoutX="348.0" layoutY="166.0" mnemonicParsing="false" onAction="#updateCourse" text="Promijeni">
+                           <font>
+                              <Font name="System Italic" size="15.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btnObrisiKolegij" layoutX="350.0" layoutY="218.0" mnemonicParsing="false" onAction="#deleteCourse" text="Obrisi">
+                           <font>
+                              <Font name="System Italic" size="15.0" />
+                           </font>
+                        </Button>
+                        <Label layoutX="418.0" layoutY="32.0" prefHeight="26.0" prefWidth="115.0" text="Ime profesora:">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="courseProfessorField" layoutX="399.0" layoutY="80.0" prefHeight="25.0" prefWidth="189.0" promptText="unesite ime profesora" />
                      </children>
                   </AnchorPane>
               </content>
