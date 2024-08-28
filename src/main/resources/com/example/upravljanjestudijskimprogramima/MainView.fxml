@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -169,12 +170,8 @@
                               <Font name="System Italic" size="15.0" />
                            </font>
                         </Button>
-                        <Label layoutX="418.0" layoutY="32.0" prefHeight="26.0" prefWidth="115.0" text="Ime profesora:">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="courseProfessorField" layoutX="399.0" layoutY="80.0" prefHeight="25.0" prefWidth="189.0" promptText="unesite ime profesora" />
+                        <TextField fx:id="courseProfessorField" layoutX="389.0" layoutY="33.0" prefHeight="25.0" prefWidth="189.0" promptText="unesite ime profesora" />
+                        <ListView fx:id="suggestionsListView" layoutX="390.0" layoutY="65.0" prefHeight="48.0" prefWidth="189.0" />
                      </children>
                   </AnchorPane>
               </content>

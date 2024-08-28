@@ -53,6 +53,8 @@ public class MainController {
 
     @FXML
     private Button btnPromijeniStudenta;
+    @FXML
+    private ListView<String> suggestionsListView;
 
     @FXML
     private TextField studentNameField;
@@ -94,12 +96,15 @@ public class MainController {
     private ObservableList<Professor> professorData = FXCollections.observableArrayList();
     private ObservableList<Course> courseData = FXCollections.observableArrayList();
 
+    private ObservableList<String> professorNames = FXCollections.observableArrayList();
+
     private StudentRepository studentRepository = new StudentRepository();
     private ProfessorRepository professorRepository = new ProfessorRepository();
     private CourseRepository courseRepository = new CourseRepository();
 
     @FXML
     public void initialize() {
+        updateProfessorNames();
 
         studentIDColumn.setCellValueFactory(new PropertyValueFactory<>("studentId"));
         studentImeColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -114,7 +119,46 @@ public class MainController {
         imeProfesoraColumn.setCellValueFactory(new PropertyValueFactory<>("professorName"));
         tvCourse.setItems(courseData);
 
+        suggestionsListView.setItems(professorNames);
+        suggestionsListView.setVisible(false);
+
+        courseProfessorField.textProperty().addListener((observable, oldText, newText) -> {
+            if (newText == null || newText.isEmpty()) {
+                suggestionsListView.setVisible(false);
+            } else {
+                ObservableList<String> filteredList = professorNames.stream()
+                        .filter(name -> name.toLowerCase().contains(newText.toLowerCase()))
+                        .collect(Collectors.toCollection(FXCollections::observableArrayList));
+
+                if (!filteredList.isEmpty()) {
+                    suggestionsListView.setItems(filteredList);
+                    suggestionsListView.setVisible(true);
+                } else {
+                    suggestionsListView.setVisible(false);
+                }
+
+                System.out.println("Filtrirani rezultati: " + filteredList);
+            }
+        });
+
+        suggestionsListView.setOnMouseClicked(event -> {
+            String selectedName = suggestionsListView.getSelectionModel().getSelectedItem();
+            courseProfessorField.setText(selectedName);
+            suggestionsListView.setVisible(false);
+        });
+
         loadData();
+    }
+
+    private void updateProfessorNames() {
+        System.out.println("Professor Data: " + professorData.stream()
+                .map(Professor::getName).collect(Collectors.toList()));
+
+        professorNames.setAll(
+                professorData.stream().map(Professor::getName).collect(Collectors.toList())
+        );
+
+        System.out.println("Updated Professor Names: " + professorNames);
     }
 
     @FXML
@@ -162,6 +206,7 @@ public class MainController {
             professorData.add(professor);
             professorNameField.clear();
             professorIdField.clear();
+            updateProfessorNames();
             saveData();
         }
     }
@@ -223,6 +268,7 @@ public class MainController {
         if (course != null) {
             course.setCourseName(courseNameField.getText());
             course.setCourseId(courseIdField.getText());
+            course.setProfessorName(courseProfessorField.getText());
             courseRepository.update(course);
             tvCourse.refresh();
             saveData();
@@ -263,8 +309,27 @@ public class MainController {
         professorRepository.load();
         courseRepository.load();
 
-        studentData.setAll(studentRepository.getAll());
-        professorData.setAll(professorRepository.getAll());
-        courseData.setAll(courseRepository.getAll());
+        List<Student> students = studentRepository.getAll();
+        if (students != null) {
+            studentData.setAll(students);
+        } else {
+            System.out.println("Podatci za studente su prazni ili null.");
+        }
+
+        List<Professor> professors = professorRepository.getAll();
+        if (professors != null) {
+            professorData.setAll(professors);
+            updateProfessorNames();
+        } else {
+            System.out.println("Podatci za profesore su prazni ili null.");
+        }
+
+        List<Course> courses = courseRepository.getAll();
+        if (courses != null) {
+            courseData.setAll(courses);
+        } else {
+            System.out.println("Podatci za kolegij su prazni ili null.");
+        }
     }
+
 }
